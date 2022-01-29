@@ -5,7 +5,9 @@ const puppeteer = require('puppeteer');
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  const BUTTON_SELECTOR = '#react-tabs-0';
+  const SINCE_BIDEN = '#react-tabs-0';
+  const PAST7 = '#react-tabs-2';
+  const YEST = '#react-tabs-4'
   // const SEARCH_SELECTOR = 'input[placeholder=Search]';
   const LABEL_SELECTOR = 'ul.stats__list li.stats__stat div.stats__stat-name';
   // const LABELS_SELECTOR = 'ul.stats__list li.stats__stat ~ div.stats__stat-name';
@@ -13,7 +15,7 @@ const puppeteer = require('puppeteer');
   // const RESULTS_SELECTOR = '.results-tab';
 
   await page.goto('https://shockmarket.org/');
-  await page.click(BUTTON_SELECTOR);
+  await page.click(SINCE_BIDEN);
   await page.waitForTimeout(500);
 
   const labels = await page.$$(LABEL_SELECTOR);
