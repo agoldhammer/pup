@@ -6,7 +6,6 @@ const YEST = '#react-tabs-4';
 const LABEL_SELECTOR = 'ul.stats__list li.stats__stat div.stats__stat-name';
 const STATS_SELECTOR = 'ul.stats__list li.stats__stat div.stats__stat-number div';
 
-
 async function scrape_stats(which, page) {
   await page.click(which);
   await page.waitForTimeout(500);
@@ -20,7 +19,7 @@ async function scrape_stats(which, page) {
       decoded_labels.push(label);
   }
 
-  const stats = await page.$$(STATS_SELECTOR);
+  let stats = await page.$$(STATS_SELECTOR);
   let run_name = "";
   switch (which) {
       case SINCE_BIDEN:
