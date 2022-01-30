@@ -34,14 +34,11 @@ async function scrape_stats(which, page) {
   }
 
   console.log("\nRun: ", run_name);
-  
+  // console.log("stats length:", stats.length)
   for (let i = 0; i < stats.length; i++) {
       let stat = await stats[i].evaluate(element => element.innerText)
       console.log('scraped result:', decoded_labels[i], ":", stat);
   }
-
-  // return new Promise(() => which);
-
 };
 
 
