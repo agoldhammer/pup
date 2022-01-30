@@ -9,7 +9,8 @@ const STATS_SELECTOR2 = 'ul.stats__list li.stats__stat div.stats__stat-number';
 
 async function scrape_stats(which, page) {
   await page.click(which);
-  await page.waitForTimeout(500);
+  // results appear to be indeterminate without this wait
+  await page.waitForTimeout(100);
 
   let labels = await page.$$(LABEL_SELECTOR);
   let decoded_labels = [];
@@ -20,8 +21,7 @@ async function scrape_stats(which, page) {
       decoded_labels.push(label);
   }
 // kludge needed because YEST stats are structured differently from other 2
-  let stats_selector = STATS_SELECTOR;
-  if (which == YEST) stats_selector = STATS_SELECTOR2;
+  let stats_selector = (which == YEST) ? STATS_SELECTOR2 : STATS_SELECTOR;
   let stats = await page.$$(stats_selector);
   let run_name = "";
   switch (which) {
@@ -65,7 +65,7 @@ async function scrape_stats(which, page) {
   await scrape_stats(PAST7, page);
   await scrape_stats(YEST, page);
 
-  await page.waitForTimeout(1000);
+  // await page.waitForTimeout(1000);
 
   await browser.close();
 })();
