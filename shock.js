@@ -5,6 +5,7 @@ const PAST7 = '#react-tabs-2';
 const YEST = '#react-tabs-4';
 const LABEL_SELECTOR = 'ul.stats__list li.stats__stat div.stats__stat-name';
 const STATS_SELECTOR = 'ul.stats__list li.stats__stat div.stats__stat-number div';
+const STATS_SELECTOR2 = 'ul.stats__list li.stats__stat div.stats__stat-number';
 
 async function scrape_stats(which, page) {
   await page.click(which);
@@ -18,8 +19,10 @@ async function scrape_stats(which, page) {
       // console.log('label', label);
       decoded_labels.push(label);
   }
-
-  let stats = await page.$$(STATS_SELECTOR);
+// kludge needed because YEST stats are structured differently from other 2
+  let stats_selector = STATS_SELECTOR;
+  if (which == YEST) stats_selector = STATS_SELECTOR2;
+  let stats = await page.$$(stats_selector);
   let run_name = "";
   switch (which) {
       case SINCE_BIDEN:
@@ -42,7 +45,10 @@ async function scrape_stats(which, page) {
   else {
     for (let i = 0; i < stats.length; i++) {
         let stat = await stats[i].evaluate(element => element.innerText)
-        console.log('scraped result:', decoded_labels[i], ":", stat);
+        // another kludge to deal with buggy website construction
+        if (stat != "") {
+          console.log('scraped result:', decoded_labels[i], ":", stat);
+        }
     }
   }
 };
